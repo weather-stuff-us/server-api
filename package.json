@@ -1,0 +1,48 @@
+{
+  "name": "@weather-stuff-us/server-api",
+  "version": "0.0.0",
+  "description": "server api for weather-stuff-us",
+  "license": "MIT",
+  "author": "Patrick Mueller <pmuellr@apache.org> (https://github.com/pmuellr)",
+  "homepage": "https://github.com/weather-stuff-us/server-api",
+  "main": "weather-stuff-us.js",
+  "bin": {
+    "weather-stuff-us": "./bin/cli.js"
+  },
+  "scripts": {
+    "check-deps": "tools/check-deps.sh",
+    "standard": "standard --verbose",
+    "start": "node server.js",
+    "utest": "tap test/test-*.js",
+    "test": "standard --verbose && npm -s run utest",
+    "watch": "nodemon --exec 'npm run check-deps && standard --verbose && tools/quiet-utest.sh'",
+    "watch-server": "nodemon --exec 'node --inspect=9230 server.js'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/weather-stuff-us/server-api.git"
+  },
+  "bugs": {
+    "url": "https://github.com/weather-stuff-us/server-api/issues"
+  },
+  "standard": {
+    "ignore": [
+      "/node_modules/",
+      "/tmp/"
+    ]
+  },
+  "dependencies": {
+    "@moar-things/moar-profiler": "github:moar-things/moar-profiler",
+    "compression": "^1.7.3",
+    "express": "^4.16.4",
+    "got": "^9.6.0",
+    "helmet": "^3.15.0",
+    "lodash.get": "^4.4.2"
+  },
+  "devDependencies": {
+    "dependency-check": "^3.3.0",
+    "nodemon": "^1.18.9",
+    "standard": "^12.0.1",
+    "tap": "^12.4.0"
+  }
+}
