@@ -40,12 +40,12 @@ async function getPopupInfo (lat, lon) {
 
 // get the location info
 async function getLocationInfo (lat, lon) {
-  return getJSON(`/api/v1/location-info?location=${lat},${lon}`)
+  return getJSON(`/api/v1/location/info?location=${lat},${lon}`)
 }
 
 // get the forecast summary
 async function getForecastSummary (lat, lon) {
-  return getJSON(`/api/v1/forecast-summary?location=${lat},${lon}`)
+  return getJSON(`/api/v1/forecast/summary?location=${lat},${lon}`)
 }
 
 // get the json from a url
