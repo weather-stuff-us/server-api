@@ -15,6 +15,7 @@ const path = require('path')
 
 const helmet = require('helmet')
 const express = require('express')
+const compression = require('compression')
 
 const httpAPIs = require('./lib/http-apis')
 
@@ -42,12 +43,18 @@ async function start (options) {
     res.json({ status: 'OK' })
   })
 
-  // mount static web files
-  const webDir = path.join(__dirname, 'web')
-  app.use('/', express.static(webDir))
-
   // APIs
   httpAPIs.mount(app)
+
+  // add compression where needed
+  const compressor = compression()
+
+  // mount static web files
+  const webDir = path.join(__dirname, 'web')
+  app.use('/', compressor, express.static(webDir))
+
+  const leafletDir = path.join(__dirname, 'node_modules', 'leaflet', 'dist')
+  app.use('/leaflet', compressor, express.static(leafletDir))
 
   // everything else is a 404
   app.all(/.*/, (req, res) => {

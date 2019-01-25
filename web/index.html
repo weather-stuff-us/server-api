@@ -1,1 +1,41 @@
-<h1>TBD</h1>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="images/weather-stuff-us.png" />
+    <title>weather-stuff-us</title>
+    <link rel="stylesheet" href="css/index.css" />
+    <link rel="stylesheet" href="leaflet/leaflet.css" />
+    <script src="leaflet/leaflet.js"></script>    
+    <script src="scripts/map.js"></script>    
+  </head>
+  <body>
+    <h1>weather-stuff-us - server API</h1>
+
+    <div id="map">
+
+    </div>
+
+    <p><a href="http://localhost:3000/api/v1/forecast-summary?location=35.70539,-78.7963">
+                http://localhost:3000/api/v1/forecast-summary?location=35.70539,-78.7963
+    </a></p>
+    <p><a href="http://localhost:3000/api/v1/forecast-timeseries?location=35.70539,-78.7963">
+                http://localhost:3000/api/v1/forecast-timeseries?location=35.70539,-78.7963
+    </a></p>
+    <p><a href="http://localhost:3000/api/v1/forecast-timeseries-properties">
+                http://localhost:3000/api/v1/forecast-timeseries-properties
+    </a></p>
+    <p><a href="http://localhost:3000/api/v1/location-info?location=35.70539,-78.7963">
+                http://localhost:3000/api/v1/location-info?location=35.70539,-78.7963
+    </a></p>
+    <p><a href="https://api.weather.gov/points/35.70539,-78.7963">
+                https://api.weather.gov/points/35.70539,-78.7963
+    </a></p>
+    <p><a href="https://forecast-v3.weather.gov/documentation">
+                https://forecast-v3.weather.gov/documentation
+    </a></p>
+
+  </body>
+</html>
