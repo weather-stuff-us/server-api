@@ -26,6 +26,12 @@ async function getPopupInfo (lat, lon) {
     getForecastSummary(lat, lon)
   ])
 
+  if (locationInfo == null || forecastSummary == null) {
+    return `
+      <p>No weather info available for ${lat}, ${lon}</p>
+    `
+  }
+
   return `
     <p>${locationInfo.location}, ele ${locationInfo.elevationFt}, tz: ${locationInfo.timeZone}</p>
     <p>${forecastSummary.periods[0].detailedForecast}</p>
@@ -34,12 +40,12 @@ async function getPopupInfo (lat, lon) {
 
 // get the location info
 async function getLocationInfo (lat, lon) {
-  return getJSON(`/api/v1/location-info?location=${lat},${lon}/`)
+  return getJSON(`/api/v1/location-info?location=${lat},${lon}`)
 }
 
 // get the forecast summary
 async function getForecastSummary (lat, lon) {
-  return getJSON(`/api/v1/forecast-summary?location=${lat},${lon}/`)
+  return getJSON(`/api/v1/forecast-summary?location=${lat},${lon}`)
 }
 
 // get the json from a url
@@ -48,6 +54,10 @@ async function getJSON (url) {
     var response = await fetch(url)
   } catch (err) {
     return { error: `error fetching ${url}: ${err.message}` }
+  }
+
+  if (response.status >= 400 && response.status < 500) {
+    return null
   }
 
   try {
