@@ -15,23 +15,21 @@ const path = require('path')
 
 const helmet = require('helmet')
 const express = require('express')
-const compression = require('compression')
 
-const GETweatherData = require('./lib/http/GET-weather-data')
-const GETproperties = require('./lib/http/GET-properties')
+const httpAPIs = require('./lib/http-apis')
+
+const logger = require('./lib/logger').create(__filename)
 
 let Server
 
 async function start (options) {
   if (Server != null) throw new Error('server already started')
 
-  // add compression where needed
-  const compressor = compression()
-
   setupErrorHandlers()
 
   const app = express()
   app.set('env', 'production')
+  app.set('json spaces', 2)
 
   // see: https://www.npmjs.com/package/helmet
   app.use(helmet({
@@ -49,8 +47,7 @@ async function start (options) {
   app.use('/', express.static(webDir))
 
   // APIs
-  app.get('/api/v1/weather-data', compressor, GETweatherData)
-  app.get('/api/v1/properties', compressor, GETproperties)
+  httpAPIs.mount(app)
 
   // everything else is a 404
   app.all(/.*/, (req, res) => {
@@ -72,7 +69,7 @@ async function start (options) {
 
   // start the server
   Server = app.listen(PORT, () => {
-    console.log(`http server is listening at port ${PORT}`)
+    logger.info(`http server is listening at port ${PORT}`)
   })
 }
 
@@ -84,20 +81,21 @@ function setupErrorHandlers () {
   initializedErrorHandlers = true
 
   process.on('exit', (code) => {
-    const message = `server exiting with code: ${code}`
-    console.log(message)
+    if (code === 0) return
+
+    logger.warn(`server exiting with code: ${code}`)
   })
 
   process.on('uncaughtException', (err) => {
-    console.log(`uncaught exception: ${err.stack}`)
+    logger.error(`uncaught exception: ${err.stack}`)
     process.exit(1)
   })
 
   process.on('unhandledRejection', (reason) => {
     if (reason.stack != null) {
-      console.log(`unhandled rejection (err): ${reason.stack}`)
+      logger.error(`unhandled rejection (err): ${reason.stack}`)
     } else {
-      console.log(`unhandled rejection (other): ${reason}`)
+      logger.error(`unhandled rejection (other): ${reason}`)
     }
 
     process.exit(1)
@@ -108,7 +106,7 @@ function setupErrorHandlers () {
 
   function signalHandler (signal) {
     const exitCode = signal === 'SIGTERM' ? 0 : 1
-    console.log(`received signal ${signal}, shutting down`)
+    logger.warn(`received signal ${signal}, shutting down`)
     process.exit(exitCode)
   }
 }
