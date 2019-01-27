@@ -54,7 +54,13 @@ async function start (options) {
   app.use('/', compressor, express.static(webDir))
 
   const leafletDir = path.join(__dirname, 'node_modules', 'leaflet', 'dist')
-  app.use('/leaflet', compressor, express.static(leafletDir))
+  app.use('/3rd-party/leaflet', compressor, express.static(leafletDir))
+
+  const d3Dir = path.join(__dirname, 'node_modules', 'd3', 'dist')
+  app.use('/3rd-party/d3', compressor, express.static(d3Dir))
+
+  const c3Dir = path.join(__dirname, 'node_modules', 'c3')
+  app.use('/3rd-party/c3', compressor, express.static(c3Dir))
 
   // everything else is a 404
   app.all(/.*/, (req, res) => {

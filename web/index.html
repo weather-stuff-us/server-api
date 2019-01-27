@@ -7,16 +7,22 @@
     <link rel="shortcut icon" href="images/weather-stuff-us.png" />
     <title>weather-stuff-us</title>
     <link rel="stylesheet" href="css/index.css" />
-    <link rel="stylesheet" href="leaflet/leaflet.css" />
-    <script src="leaflet/leaflet.js"></script>    
+    <link rel="stylesheet" href="3rd-party/leaflet/leaflet.css" />
+    <link href="3rd-party/c3/c3.css" rel="stylesheet">
+    <script src="3rd-party/leaflet/leaflet.js"></script>    
+    <script src="3rd-party/d3/d3.min.js" charset="utf-8"></script>
+    <script src="3rd-party/c3/c3.min.js"></script>
     <script src="scripts/map.js"></script>    
+    <script src="scripts/chart.js"></script>    
   </head>
   <body>
     <h1>weather-stuff-us - server API</h1>
 
-    <div id="map">
-
-    </div>
+    <div id="chart"></div>
+    
+    <p></p>
+  
+    <div id="map"></div>
 
     <p><a href="http://localhost:3000/api/v1/astro/info?location=35.70539,-78.7963">
                 http://localhost:3000/api/v1/astro/info?location=35.70539,-78.7963

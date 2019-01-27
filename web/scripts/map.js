@@ -69,6 +69,7 @@ async function getJSON (url) {
   return result
 }
 
+// build chart on window load
 if (document.readyState === 'loading') {
   window.addEventListener('load', openMap)
 } else {

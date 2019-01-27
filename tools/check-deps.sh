@@ -20,6 +20,8 @@ echo "Anything listed here should be removed from package.json"
 echo "or added to the ignore-module options in tools/check-deps.sh"
 echo ""
 node_modules/.bin/dependency-check $ENTRIES --unused \
+  --ignore-module c3 \
+  --ignore-module d3 \
   --ignore-module leaflet \
   --no-dev
 
