@@ -12,7 +12,6 @@ runTest(async function apiSuccess (t) {
   await getJSON(`${URL_PREFIX}/astro/info?${LOCATION_PARM}`)
   await getJSON(`${URL_PREFIX}/forecast/summary?${LOCATION_PARM}`)
   await getJSON(`${URL_PREFIX}/forecast/time-series?${LOCATION_PARM}`)
-  await getJSON(`${URL_PREFIX}/forecast/time-series/properties`)
   await getJSON(`${URL_PREFIX}/location/info?${LOCATION_PARM}`)
 
   t.pass('need to add tests')

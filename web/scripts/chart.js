@@ -2,58 +2,50 @@
 
 /* global c3, fetch */
 
-async function buildChart () {
+async function buildCharts () {
   const data = await getJSON(`/api/v1/forecast/time-series?location=35.70539,-78.7963`)
 
-  const dates = ['x']
-  const temps = ['temperature']
-  const dewps = ['dewpoint']
+  buildChart('#chart1', data, ['temperature', 'windChill'])
+  buildChart('#chart2', data, ['probabilityOfPrecipitation', 'skyCover'])
+  buildChart('#chart3', data, ['quantitativePrecipitation', 'snowfallAmount', 'iceAccumulation'])
+  buildChart('#chart4', data, ['windSpeed'])
+}
 
-  let lastTemp = 0
-  let lastDewp = 0
+async function buildChart (id, data, properties) {
+  const columns = []
 
-  for (let date of data.dates) {
-    const ymd = date.date.ymd
-
-    for (let time of date.times) {
-      const hms = time.time
-
-      let temp = lastTemp
-      let dewp = lastDewp
-
-      for (let property of time.properties) {
-        if (property.property === 'temperature') temp = property.value
-        if (property.property === 'dewpoint') dewp = property.value
-      }
-
-      dates.push(new Date(`${ymd}T${hms}Z`))
-      temps.push(temp)
-      dewps.push(dewp)
-
-      lastTemp = temp
-      lastDewp = dewp
-    }
+  for (let property of properties) {
+    const values = getDataForProperty(data, property)
+    values.unshift(property)
+    columns.push(values)
   }
 
   c3.generate({
+    bindto: id,
     data: {
-      x: 'x',
-      columns: [ dates, temps, dewps ],
+      columns,
       type: 'spline'
     },
+    point: { show: false },
+    grid: {
+      x: { show: true },
+      y: { show: true }
+    },
     axis: {
-      x: {
-        type: 'timeseries',
+      y: {
         tick: {
-          format: '%m-%d',
-          fit: true
+          count: 4
         }
       }
-    },
-    point: {
-      show: false
     }
   })
+}
+
+function getDataForProperty (data, property) {
+  for (const propertyObject of data.properties) {
+    if (propertyObject.property === property) return propertyObject.data
+  }
+  return []
 }
 
 // get the json from a url
@@ -79,7 +71,7 @@ async function getJSON (url) {
 
 // build chart on window load
 if (document.readyState === 'loading') {
-  window.addEventListener('load', buildChart)
+  window.addEventListener('load', buildCharts)
 } else {
-  buildChart()
+  buildCharts()
 }
