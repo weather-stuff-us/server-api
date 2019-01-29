@@ -32,8 +32,8 @@
     ]
   },
   "dependencies": {
+    "@weather-stuff-us/server-utils": "github:weather-stuff-us/server-utils",
     "c3": "^0.6.12",
-    "chalk": "^2.4.2",
     "compression": "^1.7.3",
     "d3": "^5.7.0",
     "express": "^4.16.4",
