@@ -60,7 +60,7 @@ function printSummary (summary) {
   const updatedDate = new Date(summary.updated)
 
   const location = summary.location
-  const locationName = location.location
+  const locationName = location.name
   const elevation = location.elevationFt
   const lat = location.lat
   const lon = location.lon
@@ -83,13 +83,13 @@ function printSummary (summary) {
 }
 
 function printAstroInfo (astroInfo) {
-  astroInfo.sort((a, b) => a.date.locDate.localeCompare(b.date.locDate))
+  astroInfo.events.sort((a, b) => a.date.locDate.localeCompare(b.date.locDate))
 
   console.log('Astronomicon events')
   console.log('===================')
 
   let lastDay = null
-  for (const event of astroInfo) {
+  for (const event of astroInfo.events) {
     const currDay = event.date.locDay
     if (currDay !== lastDay) {
       const dow = DOW[event.date.locDay]
